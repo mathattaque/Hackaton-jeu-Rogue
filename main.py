@@ -2,6 +2,7 @@ import numpy as np
 import pygame as pg 
 from max import K, salle
 from Mathis import Hero, Jeton
+from marianne import P
 
 
 
@@ -22,6 +23,10 @@ def display(screen,board):
                 pg.draw.rect(screen,(0,0,0),(i*TAILLE_CASE,j*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
 
 
+
+
+
+
 def main():
 
     #pour l'exemple
@@ -39,6 +44,8 @@ def main():
     monstre = K(14, 14, [0,0], salle_1)
     monstre.display(screen, TAILLE_CASE)
 
+    potion = P(1,1)
+    potion.display(screen, TAILLE_CASE)
 
     pg.display.set_caption('Rogue')
     clock=pg.time.Clock()
@@ -46,6 +53,7 @@ def main():
     #la boucle principale
     jetons = []
     score = 0
+    potions = [potion]
 
 
 
@@ -111,6 +119,7 @@ def main():
                     hero.y -= 2*hero.direction[1]
                     n+=1
 
+
             if monstre.direction[0] != 0 :
                 monstre.x = monstre.x - 3*monstre.direction[0]
                 n=1
@@ -123,6 +132,15 @@ def main():
                 while ex_board[monstre.x][monstre.y - monstre.direction[1]] == 0 and n<4 : 
                     monstre.y -= 3*monstre.direction[1]   
                     n+=1     
+
+
+        for potion in potions : 
+            if potion.guerison(hero.x, hero.y) :
+                if hero.health + 50 > 100 :
+                    hero.health = 100
+                else : 
+                    hero.health += 50
+                potions.remove(potion)  
 
         screen.fill((0, 0, 0))
         display(screen,ex_board)        
