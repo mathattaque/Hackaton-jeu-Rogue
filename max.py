@@ -95,7 +95,7 @@ class K():
 
     def attaque(self, X, Y):   #si le monstre est proche du personnage, il l'attaque
 
-        if self.distance(X, Y) <= 1.5:
+        if self.distance(X, Y) <= 1:
 
             return True
         else:

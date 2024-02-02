@@ -85,8 +85,7 @@ def main():
 
 
     while running:
-        if not hero.alive:
-            running = False
+        
         clock.tick(FPS)
         screen.fill((0, 0, 0))
         display(screen,ex_board)
@@ -118,10 +117,12 @@ def main():
                         hero.y += 1
                         monstre.se_deplacer(hero.x, hero.y)
                         hero.direction = [0, 1]
+
+
         
-        monstre.se_deplacer(hero.x, hero.y)
+        
         if monstre.attaque(hero.x, hero.y):
-            hero.health -= 50
+            hero.health -= 10
             # on fait reculer le héro et le monstre après collision
             if hero.direction[0] != 0 :
                 hero.x -= hero.direction[0]
@@ -153,6 +154,10 @@ def main():
         
         screen.fill((0, 0, 0))
         display(screen,ex_board)
+        
+                
+        
+        
 
         
         screen.fill((0, 0, 0))
@@ -167,11 +172,15 @@ def main():
                 jetons.remove(jeton)
                 score += 1 
 
-        texte_score = police.render("Score : " + str(score), True, (125, 125, 125))
+        texte_score = police.render("Score : " + str(hero.health), True, (125, 125, 125))
         position_score = (10, 10) 
         screen.blit(texte_score, position_score)
-        
+        hero.update_health()
         pg.display.update()
+        if not hero.alive:
+            running = False
+            pg.quit()
+        
         
     pg.quit()
 
