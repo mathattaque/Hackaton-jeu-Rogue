@@ -1,3 +1,4 @@
+import random
 import pygame as pg
 
 class K():
@@ -16,13 +17,34 @@ class K():
             if ((X - self.x)/self.distance(X, Y)) < ((Y - self.y)/self.distance(X, Y)):
                 if self.y < Y:
                     self.y = self.y + 1 
+                
                 else:   
                     self.y = self.y - 1
-            else:
+
+            elif ((X - self.x)/self.distance(X, Y)) > ((Y - self.y)/self.distance(X, Y)):
                 if self.x < X:
                     self.x = self.x + 1
                 else:
-                    self.x = self.x - 1
+                    self.x = self.x - 1 
+
+            else :
+                a = random.randint(0,1)
+                if a == 1 : 
+                    if self.x < X : 
+                        self.x = self.x + 1 
+                    else : 
+                        self.x = self.x - 1
+                else :
+                    if self.y < Y : 
+                        self.y = self.y + 1 
+                    else : 
+                        self.y = self.y - 1 
+
+                
+                
+
+                
+
         
         else:
             self.x += round(((X - self.x)/self.distance(X, Y)))
