@@ -1,5 +1,6 @@
 import numpy as np 
 import pygame as pg 
+from max import K
 
 
 TAILLE_FENETRE = 800
@@ -54,6 +55,9 @@ def main():
     police = pg.font.Font(None, 36)  # Choisissez une taille de police qui convient
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
+    monstre = K()
+    monstre.display()
+
     pg.display.set_caption('Rogue')
     clock=pg.time.Clock()
     running=True
@@ -74,6 +78,12 @@ def main():
                 if event.key==pg.K_q:
                     running=False
 
+        
+        monstre.se_deplacer(hero.x, hero.y)
+        if monstre.attaque(hero.x, hero.y):
+            hero.health -= 100
+
+        
         screen.fill((0, 0, 0))
         display(screen,ex_board)
 
