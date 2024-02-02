@@ -78,6 +78,8 @@ def main():
     hero = Hero(100, 10, 8, 8, (255, 0, 0))
 
     while running:
+        if not hero.alive:
+            running = False
         clock.tick(FPS)
         screen.fill((0, 0, 0))
         display(screen,ex_board)
@@ -91,29 +93,35 @@ def main():
                 elif event.key == pg.K_LEFT:
                     if ex_board[hero.x-1,hero.y]==1:
                         hero.x -= 1
+                        monstre.se_deplacer(hero.x, hero.y)
                 elif event.key == pg.K_RIGHT:
                     if ex_board[hero.x+1,hero.y]==1:
                         hero.x += 1
+                        monstre.se_deplacer(hero.x, hero.y)
                 elif event.key == pg.K_UP:
                     if ex_board[hero.x,hero.y-1]==1:
                         hero.y -= 1
+                        monstre.se_deplacer(hero.x, hero.y)
                 elif event.key == pg.K_DOWN:
                     if ex_board[hero.x,hero.y+1]==1:
                         hero.y += 1
+                        monstre.se_deplacer(hero.x, hero.y)
 
         
-        monstre.se_deplacer(hero.x, hero.y)
+        
         if monstre.attaque(hero.x, hero.y):
             hero.health -= 100
+            hero.update_health()
 
         
         screen.fill((0, 0, 0))
         display(screen,ex_board)
 
-        if not hero.alive:
-            pg.quit()
+
+
         
-        monstre.display(screen)
+        
+        monstre.display(screen, TAILLE_CASE)
         hero.draw(screen)
         
         for jeton in jetons:
@@ -125,9 +133,9 @@ def main():
         texte_score = police.render("Score : " + str(score), True, (125, 125, 125))
         position_score = (10, 10) 
         screen.blit(texte_score, position_score)
-
+        
         pg.display.update()
-
+        
     pg.quit()
 
 if __name__ == "__main__":

@@ -42,8 +42,9 @@ class K():
                             self.y = self.y - 1 
 
             else:
-                self.x += round(((X - self.x)/self.distance(X, Y)))
-                self.y += round(((Y - self.y)/self.distance(X, Y)))
+                
+                self.x += round(((X - self.x)/self.distance(X, Y))) if self.distance(X, Y) != 0 else 0
+                self.y += round(((Y - self.y)/self.distance(X, Y))) if self.distance(X, Y) != 0 else 0
         else:
             self.x, self.y = self.x, self.y
 
@@ -51,7 +52,7 @@ class K():
     
 
     def attaque(self, X, Y):   #si le monstre est proche du personnage, il l'attaque
-        if self.distance(X, Y) <= 1:
+        if self.distance(X, Y) <= 1.5:
             return True
         else:
             return False
@@ -61,7 +62,7 @@ class K():
         return ((X - self.x)**2 + (Y - self.y)**2)**0.5
     
     
-    def display(self,screen):
+    def display(self,screen, TAILLE_CASE):
         pg.draw.circle(screen, (0, 0, 255), (self.x*TAILLE_CASE, self.y*TAILLE_CASE), 15)
 
 
