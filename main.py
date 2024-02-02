@@ -81,7 +81,6 @@ def main():
         clock.tick(FPS)
         screen.fill((0, 0, 0))
         display(screen,ex_board)
-        monstre.display(screen, TAILLE_CASE)
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 running=False
@@ -113,7 +112,8 @@ def main():
 
         if not hero.alive:
             pg.quit()
-            
+        
+        monstre.display(screen)
         hero.draw(screen)
         
         for jeton in jetons:
