@@ -21,7 +21,7 @@ class Hero:
     def draw(self, screen):
         pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
 
-    def is_dead(self):
+    def update_health(self):
         if self.health <= 0:
             self.alive = False
 
@@ -111,7 +111,7 @@ def main():
         screen.fill((0, 0, 0))
         display(screen,ex_board)
 
-        if not hero.alive():
+        if not hero.alive:
             pg.quit()
             
         hero.draw(screen)
