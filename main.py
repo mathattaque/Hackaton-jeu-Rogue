@@ -10,13 +10,14 @@ NB_CASES = TAILLE_FENETRE // TAILLE_CASE
 FPS=30
 
 class Hero:
-    def __init__(self, health, attack, x, y, color):
+    def __init__(self, health, attack, x, y, color, direction):
         self.health = health
         self.attack = attack
         self.x = x
         self.y = y
         self.alive = True
         self.color = color
+        self.direction = direction
 
     def draw(self, screen):
         pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
@@ -65,7 +66,7 @@ def main():
     police = pg.font.Font(None, 36)  # Choisissez une taille de police qui convient
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
-    monstre = K(14, 14)
+    monstre = K(14, 14, [0,0])
     monstre.display(screen, TAILLE_CASE)
 
     pg.display.set_caption('Rogue')
@@ -75,7 +76,7 @@ def main():
     jetons = []
     score = 0
 
-    hero = Hero(100, 10, 8, 8, (255, 0, 0))
+    hero = Hero(100, 10, 8, 8, (255, 0, 0), [0, 0])
 
     while running:
         if not hero.alive:
@@ -94,18 +95,22 @@ def main():
                     if ex_board[hero.x-1,hero.y]==1:
                         hero.x -= 1
                         monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [-1, 0]
                 elif event.key == pg.K_RIGHT:
                     if ex_board[hero.x+1,hero.y]==1:
                         hero.x += 1
                         monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [1, 0]
                 elif event.key == pg.K_UP:
                     if ex_board[hero.x,hero.y-1]==1:
                         hero.y -= 1
                         monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, -1]
                 elif event.key == pg.K_DOWN:
                     if ex_board[hero.x,hero.y+1]==1:
                         hero.y += 1
                         monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, 1]
 
         
         
