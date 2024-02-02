@@ -9,13 +9,14 @@ NB_CASES = TAILLE_FENETRE // TAILLE_CASE
 FPS=30
 
 class Hero:
-    def __init__(self, health, attack, x, y, color):
+    def __init__(self, health, attack, x, y, color, direction):
         self.health = health
         self.attack = attack
         self.x = x
         self.y = y
         self.alive = True
         self.color = color
+        self.direction = direction
 
     def draw(self, screen):
         pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
@@ -27,9 +28,7 @@ class Hero:
     def attack_enemy(self, enemy):
         damage = np.random.randint(self.attack - 5, self.attack + 5)
         enemy.health -= damage
-        enemy.is_dead()
-
-
+        enemy.is_dead()        
 
 
 def display(screen,board):
@@ -61,7 +60,7 @@ def main():
 
     score = 0
 
-    hero = Hero(100, 10, 8, 8, (255, 0, 0))
+    hero = Hero(100, 10, 8, 8, (255, 0, 0), [0, 0])
 
     while running:
         clock.tick(FPS)
@@ -78,15 +77,19 @@ def main():
                 elif event.key == pg.K_LEFT:
                     if ex_board[hero.x-1,hero.y]==1:
                         hero.x -= 1
+                        hero.direction = [-1, 0]
                 elif event.key == pg.K_RIGHT:
                     if ex_board[hero.x+1,hero.y]==1:
                         hero.x += 1
+                        hero.direction = [1, 0]
                 elif event.key == pg.K_UP:
                     if ex_board[hero.x,hero.y-1]==1:
                         hero.y -= 1
+                        hero.direction = [0, -1]
                 elif event.key == pg.K_DOWN:
                     if ex_board[hero.x,hero.y+1]==1:
                         hero.y += 1
+                        hero.direction = [0, 1]
 
         if not hero.alive():
             pg.quit()
