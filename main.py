@@ -93,11 +93,34 @@ def main():
         monstre.se_deplacer(hero.x, hero.y)
         if monstre.attaque(hero.x, hero.y):
             hero.health -= 100
-            # on fait reculer le monstre 
-            hero.x = hero.x - hero.direction[0]
-            hero.y = hero.y - hero.direction[1]
-            monstre.x = monstre.x - monstre.direction[0]
-            monstre.y = monstre.y - monstre.direction[1]
+            # on fait reculer le héro et le monstre après collision
+            if hero.direction[0] != 0 :
+                hero.x -= hero.direction[0]
+                n=1
+                while ex_board[hero.x - hero.direction[0]][hero.y] == 0 and n<4 : 
+                    hero.x -= hero.direction[0]
+                    n+=1
+            else : 
+                hero.y = hero.y - hero.direction[1]
+                n=1
+                while ex_board[hero.x][hero.y - hero.direction[1]] == 0 and n<4 : 
+                    hero.y -= hero.direction[1]
+                    n+=1
+
+            if monstre.direction[0] != 0 :
+                monstre.x = monstre.x - monstre.direction[0]
+                n=1
+                while ex_board[monstre.x - monstre.direction[0]][hero.y] == 0 and n<4 : 
+                    monstre.x -= monstre.direction[0]
+                    n+=1
+            else : 
+                monstre.y -= monstre.direction[1]
+                n=1
+                while ex_board[monstre.x][monstre.y - monstre.direction[1]] == 0 and n<4 : 
+                    monstre.y -= monstre.direction[1]   
+                    n+=1     
+            
+            
         
         screen.fill((0, 0, 0))
         display(screen,ex_board)
