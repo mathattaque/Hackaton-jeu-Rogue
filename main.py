@@ -1,9 +1,13 @@
 import numpy as np 
 import pygame as pg 
 
+
 TAILLE_FENETRE = 800
 TAILLE_CASE = 50
 NB_CASES = TAILLE_FENETRE // TAILLE_CASE
+
+FPS=30
+
 
 class Hero:
     def __init__(self, name, health, attack, x, y, color):
@@ -39,6 +43,7 @@ def display(screen,board):
             #on colorie en noir les bordures
             if board[i][j]==1:
                 pg.draw.rect(screen,(0,0,0),(i*TAILLE_CASE,j*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+
     
 
 
@@ -49,11 +54,11 @@ def main():
     ex_board[1:NB_CASES-1,1:NB_CASES-1]=np.ones((NB_CASES-2,NB_CASES-2))
     #print(ex_board)
 
-
-    #initialize pygame
+        
     pg.init()
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
     pg.display.set_caption('Rogue')
+    clock=pygame.time.Clock()
     running=True
     #la boucle principale
     while running:
@@ -67,11 +72,10 @@ def main():
         display(screen,ex_board)
 
         pg.display.update()
-
+        clock.tick(FPS)
     texte_score = police.render("Score : " + str(score), True, (255, 255, 255))
     position_score = (10, 10) 
     screen.blit(texte_score, position_score)
-
 
 if __name__ == "__main__":
     main()
