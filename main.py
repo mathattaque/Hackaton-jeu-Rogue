@@ -10,7 +10,7 @@ FPS=30
 
 
 class Hero:
-    def __init__(self, name, health, attack, x, y, color):
+    def __init__(self, name, health, attack, x, y, color, score):
         self.name = name
         self.health = health
         self.attack = attack
@@ -54,13 +54,18 @@ def main():
     ex_board[1:NB_CASES-1,1:NB_CASES-1]=np.ones((NB_CASES-2,NB_CASES-2))
     #print(ex_board)
 
-        
+    pg.font.init()
+    police = pg.font.Font(None, 36)  # Choisissez une taille de police qui convient
+
     pg.init()
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
     pg.display.set_caption('Rogue')
-    clock=pygame.time.Clock()
+    clock=pg.time.Clock()
     running=True
     #la boucle principale
+
+    score = 0
+
     while running:
         for event in pg.event.get():
             if event.type==pg.QUIT:
