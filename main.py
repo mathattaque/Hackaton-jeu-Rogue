@@ -65,7 +65,7 @@ def main():
     police = pg.font.Font(None, 36)  # Choisissez une taille de police qui convient
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
-    monstre = K()
+    monstre = K(14, 14)
     monstre.display(screen, TAILLE_CASE)
 
     pg.display.set_caption('Rogue')

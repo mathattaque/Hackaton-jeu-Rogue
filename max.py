@@ -2,9 +2,9 @@ import random
 import pygame as pg
 
 class K():
-    def __init__(self):
-        self.x = -2
-        self.y = -2
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
     
 
     def __repr__(self):
@@ -12,7 +12,7 @@ class K():
     
     def se_deplacer(self, X, Y):   
         # le monstre se déplace vers le personnage
-        if self.distance(X, Y) >= 1:
+        if self.distance(X, Y) != 0:
             if round(((X - self.x)/self.distance(X, Y))) == round(((Y - self.y)/self.distance(X, Y))) :
                 #on étudie les cas où le monstre et le personnage sont un peu en diagonale, il ne faut alors pas que le monstre se déplace en diagonale
                 if ((X - self.x)/self.distance(X, Y)) < ((Y - self.y)/self.distance(X, Y)):
@@ -41,12 +41,6 @@ class K():
                         else : 
                             self.y = self.y - 1 
 
-                    
-                    
-
-                    
-
-            
             else:
                 self.x += round(((X - self.x)/self.distance(X, Y)))
                 self.y += round(((Y - self.y)/self.distance(X, Y)))
