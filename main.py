@@ -163,7 +163,7 @@ def main():
                 jetons.remove(jeton)
                 score += 1 
 
-        texte_score = police.render("Score : " + str(hero.health), True, (125, 125, 125))
+        texte_score = police.render("Health : " + str(hero.health), True, (125, 125, 125))
         position_score = (10, 10) 
         screen.blit(texte_score, position_score)
         hero.update_health()
