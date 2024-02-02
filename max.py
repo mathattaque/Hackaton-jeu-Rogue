@@ -64,7 +64,7 @@ class K():
         return ((X - self.x)**2 + (Y - self.y)**2)**0.5
     
     
-    def display(self):
+    def display(self,screen):
         pg.draw.circle(screen, (0, 0, 255), (self.x, self.y), 15)
 
 

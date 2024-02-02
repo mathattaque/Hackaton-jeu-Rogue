@@ -56,7 +56,7 @@ def main():
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
     monstre = K()
-    monstre.display()
+    monstre.display(screen)
 
     pg.display.set_caption('Rogue')
     clock=pg.time.Clock()
