@@ -21,7 +21,7 @@ class Hero:
         self.direction = direction
 
     def draw(self, screen):
-        pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+        pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE, self.y*TAILLE_CASE ,TAILLE_CASE,TAILLE_CASE))
 
     def update_health(self):
         if self.health <= 0:
@@ -122,39 +122,43 @@ def main():
         
         
         if monstre.attaque(hero.x, hero.y):
+            screen.fill((0, 0, 0))
+            display(screen,ex_board)        
+            monstre.display(screen, TAILLE_CASE)
+            hero.draw(screen)
+            pg.display.update()
+
             hero.health -= 10
             # on fait reculer le héro et le monstre après collision
             if hero.direction[0] != 0 :
-                hero.x -= hero.direction[0]
+                hero.x -= 2*hero.direction[0]
                 n=1
                 while ex_board[hero.x - hero.direction[0]][hero.y] == 0 and n<4 : 
-                    hero.x -= hero.direction[0]
+                    hero.x -= 2*hero.direction[0]
                     n+=1
             else : 
-                hero.y = hero.y - hero.direction[1]
+                hero.y = hero.y - 2*hero.direction[1]
                 n=1
                 while ex_board[hero.x][hero.y - hero.direction[1]] == 0 and n<4 : 
-                    hero.y -= hero.direction[1]
+                    hero.y -= 2*hero.direction[1]
                     n+=1
 
             if monstre.direction[0] != 0 :
-                monstre.x = monstre.x - monstre.direction[0]
+                monstre.x = monstre.x - 3*monstre.direction[0]
                 n=1
                 while ex_board[monstre.x - monstre.direction[0]][hero.y] == 0 and n<4 : 
-                    monstre.x -= monstre.direction[0]
+                    monstre.x -= 3*monstre.direction[0]
                     n+=1
             else : 
-                monstre.y -= monstre.direction[1]
+                monstre.y -= 3*monstre.direction[1]
                 n=1
                 while ex_board[monstre.x][monstre.y - monstre.direction[1]] == 0 and n<4 : 
-                    monstre.y -= monstre.direction[1]   
+                    monstre.y -= 3*monstre.direction[1]   
                     n+=1     
             
             
         
-        screen.fill((0, 0, 0))
-        display(screen,ex_board)
-        
+
                 
         
         
@@ -163,7 +167,6 @@ def main():
         screen.fill((0, 0, 0))
         display(screen,ex_board)        
         monstre.display(screen, TAILLE_CASE)
-
         hero.draw(screen)
         
         for jeton in jetons:
@@ -176,12 +179,12 @@ def main():
         position_score = (10, 10) 
         screen.blit(texte_score, position_score)
         hero.update_health()
-        pg.display.update()
+    
         if not hero.alive:
             running = False
             pg.quit()
         
-        
+        pg.display.update()
     pg.quit()
 
 if __name__ == "__main__":
