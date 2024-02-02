@@ -6,6 +6,7 @@ class K():
     def __init__(self, x, y, direction):
         self.x = x
         self.y = y
+        self.direction = direction
 
     
 
@@ -20,28 +21,36 @@ class K():
             if ((X - self.x)/self.distance(X, Y)) < ((Y - self.y)/self.distance(X, Y)):
                 if self.y < Y:
                     self.y = self.y + 1 
+                    self.direction = [0, 1]
                 
                 else:   
                     self.y = self.y - 1
+                    self.direction = [0, -1]
 
             elif ((X - self.x)/self.distance(X, Y)) > ((Y - self.y)/self.distance(X, Y)):
                 if self.x < X:
                     self.x = self.x + 1
+                    self.direction = [1, 0]
                 else:
                     self.x = self.x - 1 
+                    self.direction = [-1, 0]
 
             else :
                 a = random.randint(0,1)
                 if a == 1 : 
                     if self.x < X : 
                         self.x = self.x + 1 
+                        self.direction = [1, 0]
                     else : 
                         self.x = self.x - 1
+                        self.direction = [-1, 0]
                 else :
                     if self.y < Y : 
                         self.y = self.y + 1 
+                        self.direction = [0, 1]
                     else : 
                         self.y = self.y - 1 
+                        self.direction = [0, -1]
 
     
         if self.distance(X, Y) != 0:
