@@ -43,10 +43,7 @@ class K():
                     else : 
                         self.y = self.y - 1 
 
-                
-                
-
-£
+    
         if self.distance(X, Y) != 0:
             if round(((X - self.x)/self.distance(X, Y))) == round(((Y - self.y)/self.distance(X, Y))) :
                 #on étudie les cas où le monstre et le personnage sont un peu en diagonale, il ne faut alors pas que le monstre se déplace en diagonale
@@ -89,7 +86,7 @@ class K():
                 
                 self.x += round(((X - self.x)/self.distance(X, Y))) if self.distance(X, Y) != 0 else 0
                 self.y += round(((Y - self.y)/self.distance(X, Y))) if self.distance(X, Y) != 0 else 0
-          else:
+        else:
             self.x, self.y = self.x, self.y
 
 

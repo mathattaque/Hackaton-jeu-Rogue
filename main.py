@@ -98,11 +98,30 @@ def main():
             if event.type==pg.KEYDOWN:
                 if event.key==pg.K_q:
                     running=False
-
+                elif event.key == pg.K_LEFT:
+                    if ex_board[hero.x-1,hero.y]==1:
+                        hero.x -= 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [-1, 0]
+                elif event.key == pg.K_RIGHT:
+                    if ex_board[hero.x+1,hero.y]==1:
+                        hero.x += 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [1, 0]
+                elif event.key == pg.K_UP:
+                    if ex_board[hero.x,hero.y-1]==1:
+                        hero.y -= 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, -1]
+                elif event.key == pg.K_DOWN:
+                    if ex_board[hero.x,hero.y+1]==1:
+                        hero.y += 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, 1]
         
         monstre.se_deplacer(hero.x, hero.y)
         if monstre.attaque(hero.x, hero.y):
-            hero.health -= 100
+            hero.health -= 50
             # on fait reculer le héro et le monstre après collision
             if hero.direction[0] != 0 :
                 hero.x -= hero.direction[0]
@@ -134,33 +153,6 @@ def main():
         
         screen.fill((0, 0, 0))
         display(screen,ex_board)
-
-                elif event.key == pg.K_LEFT:
-                    if ex_board[hero.x-1,hero.y]==1:
-                        hero.x -= 1
-                        monstre.se_deplacer(hero.x, hero.y)
-                        hero.direction = [-1, 0]
-                elif event.key == pg.K_RIGHT:
-                    if ex_board[hero.x+1,hero.y]==1:
-                        hero.x += 1
-                        monstre.se_deplacer(hero.x, hero.y)
-                        hero.direction = [1, 0]
-                elif event.key == pg.K_UP:
-                    if ex_board[hero.x,hero.y-1]==1:
-                        hero.y -= 1
-                        monstre.se_deplacer(hero.x, hero.y)
-                        hero.direction = [0, -1]
-                elif event.key == pg.K_DOWN:
-                    if ex_board[hero.x,hero.y+1]==1:
-                        hero.y += 1
-                        monstre.se_deplacer(hero.x, hero.y)
-                        hero.direction = [0, 1]
-
-        
-        
-        if monstre.attaque(hero.x, hero.y):
-            hero.health -= 100
-            hero.update_health()
 
         
         screen.fill((0, 0, 0))
