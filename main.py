@@ -1,6 +1,6 @@
 import numpy as np 
 import pygame as pg 
-from max import K, salle
+from max import K
 from Mathis import Hero, Jeton
 from marianne import P
 
@@ -20,7 +20,10 @@ def display(screen,board):
         for j in range(NB_CASES):
             #on colorie en noir les bordures
             if board[i][j]==1:
-                pg.draw.rect(screen,(0,0,0),(i*TAILLE_CASE,j*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+                pg.draw.rect(screen,(0,0,0),(j*TAILLE_CASE,i*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+            if board[i][j]==2:
+                pg.draw.rect(screen,(0,0,255),(j*TAILLE_CASE,i*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+                ##on colorie en bleu les portes
 
 
 
@@ -28,12 +31,17 @@ def display(screen,board):
 
 
 def main():
-
-    #pour l'exemple
     ex_board=np.zeros((NB_CASES,NB_CASES))
-    ex_board[1:NB_CASES-1,1:NB_CASES-1]=np.ones((NB_CASES-2,NB_CASES-2))
-    salle_1 = salle(1,2, {(1,2):(1,3),(1,3):(1,2)}, 3, 3)
+    #on veut faire deux salles , c'est à dire des carrées remplies de 1 en haut à gauche et en bas à droite de dimension nb case/2
+    ex_board[1:NB_CASES//2-1,1:NB_CASES//2-1]=np.ones((NB_CASES//2-2,NB_CASES//2-2))
+    ex_board[1,7]=2
+    ex_board[NB_CASES//2+1:NB_CASES-1,NB_CASES//2+1:NB_CASES-1]=np.ones((NB_CASES//2-2,NB_CASES//2-2))
+    ex_board[14,8]=2
+
+    dic_porte={(1,7):[14,9],(14,8):[1, 6]}
+    #salle_1 = salle(1,2, {(1,2):(1,3),(1,3):(1,2)}, 3, 3)
     #print(ex_board)
+
     pg.init()
 
     pg.font.init()
@@ -41,7 +49,8 @@ def main():
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
 
-    monstre = K(14, 14, [0,0], salle_1)
+    #monstre = K(14, 14, [0,0], salle_1)
+    monstre = K(14, 14, [0,0])
     monstre.display(screen, TAILLE_CASE)
 
     potion = P(1,1)
@@ -55,9 +64,7 @@ def main():
     score = 0
     potions = [potion]
 
-
-
-    hero = Hero(100, 10, 8, 8, (255, 0, 0), [0, 0])
+    hero = Hero(100, 10, 3, 3, (255, 0, 0), [0, 0])
 
 
     while running:
@@ -65,35 +72,65 @@ def main():
         clock.tick(FPS)
         screen.fill((0, 0, 0))
         display(screen,ex_board)
-
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 running=False
             #la touche q doit arrêter le jeu
             if event.type==pg.KEYDOWN:
+                hero.draw(screen, TAILLE_CASE)
                 if event.key==pg.K_q:
                     running=False
-                elif event.key == pg.K_LEFT:
-                    if ex_board[hero.x-1,hero.y]==1:
-                        monstre.se_deplacer(hero.x, hero.y)
-                        hero.x -= 1
-                        hero.direction = [-1, 0]
-                elif event.key == pg.K_RIGHT:
-                    if ex_board[hero.x+1,hero.y]==1:
-                        monstre.se_deplacer(hero.x, hero.y)
-                        hero.x += 1
-                        hero.direction = [1, 0]
-                elif event.key == pg.K_UP:
-                    if ex_board[hero.x,hero.y-1]==1:
-                        monstre.se_deplacer(hero.x, hero.y)
-                        hero.y -= 1
-                        hero.direction = [0, -1]
                 elif event.key == pg.K_DOWN:
-                    if ex_board[hero.x,hero.y+1]==1:
-                        monstre.se_deplacer(hero.x, hero.y)
+                    if ex_board[hero.y+1,hero.x]==1:
                         hero.y += 1
+                        #monstre.se_deplacer(hero.x, hero.y)
+                        #hero.direction = [-1, 0]
+                    if ex_board[hero.y+1,hero.x]==2:
+                        print("ok")
+                        if (hero.y+1, hero.x) in dic_porte:
+                            a,b=hero.y+1,hero.x
+                            hero.y = dic_porte[(a,b)][0]
+                            hero.x = dic_porte[(a,b)][1]
+                            #monstre.se_deplacer(hero.x, hero.y)
+                            hero.direction = [-1, 0]
+                elif event.key == pg.K_UP:
+                    if ex_board[hero.y-1,hero.x]==1:
+                        hero.y -= 1
+                        #monstre.se_deplacer(hero.x, hero.y)
+                        #hero.direction = [1, 0]
+                    if (hero.y-1,hero.x) in dic_porte:
+                        a,b=hero.y-1,hero.x
+                        hero.y = dic_porte[(a,b)][0]
+                        hero.x = dic_porte[(a,b)][1]
+                        #monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [1, 0]
+                elif event.key == pg.K_LEFT:
+                    print(dic_porte, hero.x, hero.y)
+                    if ex_board[hero.y,hero.x-1]==1:
+                        hero.x -= 1
+                        #monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, -1]
+                    if (hero.y,hero.x-1) in dic_porte.keys():
+                        a,b=hero.y,hero.x-1
+                        hero.y = dic_porte[(a,b)][0]
+                        hero.x = dic_porte[(a,b)][1]
+                        #monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, -1]
+                elif event.key == pg.K_RIGHT:
+                    if ex_board[hero.y,hero.x+1]==1:
+                        hero.x += 1
+                        #monstre.se_deplacer(hero.x, hero.y)
                         hero.direction = [0, 1]
-
+                        print((hero.y,hero.x)==(1,6),"yeah",dic_porte.keys())
+                    if ex_board[hero.y,hero.x+1]==2:
+                        if (hero.y,hero.x+1 ) in dic_porte.keys():
+                            a,b=hero.y,hero.x+1 
+                            hero.y = dic_porte[(a,b)][0]
+                            print(hero.y,hero.x)
+                            hero.x = dic_porte[(a,b)][1]
+                            print(hero.y,hero.x)
+                        #monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, 1]
 
         
         

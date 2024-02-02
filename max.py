@@ -10,20 +10,28 @@ import numpy as np
 
 class K():
 
-    def __init__(self, x, y, direction, salle):
+    def __init__(self, x, y, direction):
         self.x = x 
         self.y = y
-        self.salle = salle
+        #self.salle = salle
         #self.etat = "inactive"
         self.etat = "active"
         self.direction = direction
 
+    # def __init__(self, x, y, direction, salle):
+    #     self.x = x 
+    #     self.y = y
+    #     self.salle = salle
+    #     #self.etat = "inactive"
+    #     self.etat = "active"
+    #     self.direction = direction
+
 
     
 
-    def activate(self, salle):
-        if salle.etat == "ouverte":
-            self.etat = "active"
+    # def activate(self, salle):
+    #     if salle.etat == "ouverte":
+    #         self.etat = "active"
 
     def __repr__(self):
         return str(self.x, self.y)
@@ -100,28 +108,28 @@ class K():
 
 
 
-class salle():
-    def __init__(self, i, j, dico, width, height):
-        self.i = i
-        self.j = j
-        self.width = width
-        self.height = height
-        self.entrees = dico
-        #self.etat = "fermee"
-        self.etat = "ouverte"
+# class salle():
+#     def __init__(self, i, j, dico, width, height):
+#         self.i = i
+#         self.j = j
+#         self.width = width
+#         self.height = height
+#         self.entrees = dico
+#         #self.etat = "fermee"
+#         self.etat = "ouverte"
 
 
-    def draw(self, board):
-        board[self.i:self.i+self.width, self.j:self.j+self.height] = 1
-        return board
+#     def draw(self, board):
+#         board[self.i:self.i+self.width, self.j:self.j+self.height] = 1
+#         return board
     
     
-    def activate(self, entrees, hero):
-        if (hero.x, hero.y) in entrees:
-            if self.etat ==  "ouverte":
-                self.etat = "fermee"
-            else:
-                self.etat = "ouverte"
+#     def activate(self, entrees, hero):
+#         if (hero.x, hero.y) in entrees:
+#             if self.etat ==  "ouverte":
+#                 self.etat = "fermee"
+#             else:
+#                 self.etat = "ouverte"
     
 
             
