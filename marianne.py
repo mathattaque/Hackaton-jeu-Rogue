@@ -1,3 +1,6 @@
+import numpy as np 
+import pygame as pg
+
 class P() :
     def __init__(self, x, y):
         self.x = x
