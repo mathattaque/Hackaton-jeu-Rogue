@@ -12,43 +12,46 @@ class K():
     
     def se_deplacer(self, X, Y):   
         # le monstre se déplace vers le personnage
-        if round(((X - self.x)/self.distance(X, Y))) == round(((Y - self.y)/self.distance(X, Y))) :
-            #on étudie les cas où le monstre et le personnage sont un peu en diagonale, il ne faut alors pas que le monstre se déplace en diagonale
-            if ((X - self.x)/self.distance(X, Y)) < ((Y - self.y)/self.distance(X, Y)):
-                if self.y < Y:
-                    self.y = self.y + 1 
-                
-                else:   
-                    self.y = self.y - 1
-
-            elif ((X - self.x)/self.distance(X, Y)) > ((Y - self.y)/self.distance(X, Y)):
-                if self.x < X:
-                    self.x = self.x + 1
-                else:
-                    self.x = self.x - 1 
-
-            else :
-                a = random.randint(0,1)
-                if a == 1 : 
-                    if self.x < X : 
-                        self.x = self.x + 1 
-                    else : 
-                        self.x = self.x - 1
-                else :
-                    if self.y < Y : 
+        if self.distance(X, Y) >= 1:
+            if round(((X - self.x)/self.distance(X, Y))) == round(((Y - self.y)/self.distance(X, Y))) :
+                #on étudie les cas où le monstre et le personnage sont un peu en diagonale, il ne faut alors pas que le monstre se déplace en diagonale
+                if ((X - self.x)/self.distance(X, Y)) < ((Y - self.y)/self.distance(X, Y)):
+                    if self.y < Y:
                         self.y = self.y + 1 
-                    else : 
-                        self.y = self.y - 1 
+                    
+                    else:   
+                        self.y = self.y - 1
 
-                
-                
+                elif ((X - self.x)/self.distance(X, Y)) > ((Y - self.y)/self.distance(X, Y)):
+                    if self.x < X:
+                        self.x = self.x + 1
+                    else:
+                        self.x = self.x - 1 
 
-                
+                else :
+                    a = random.randint(0,1)
+                    if a == 1 : 
+                        if self.x < X : 
+                            self.x = self.x + 1 
+                        else : 
+                            self.x = self.x - 1
+                    else :
+                        if self.y < Y : 
+                            self.y = self.y + 1 
+                        else : 
+                            self.y = self.y - 1 
 
-        
+                    
+                    
+
+                    
+
+            
+            else:
+                self.x += round(((X - self.x)/self.distance(X, Y)))
+                self.y += round(((Y - self.y)/self.distance(X, Y)))
         else:
-            self.x += round(((X - self.x)/self.distance(X, Y)))
-            self.y += round(((Y - self.y)/self.distance(X, Y)))
+            self.x, self.y = self.x, self.y
 
         return self.x, self.y
     

@@ -71,7 +71,7 @@ def main():
         clock.tick(FPS)
         screen.fill((0, 0, 0))
         display(screen,ex_board)
-
+        monstre.display(screen)
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 running=False
