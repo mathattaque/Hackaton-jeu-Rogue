@@ -1,7 +1,62 @@
+import numpy as np 
+import pygame as pg 
+from max import K
+from marianne import P
+
+
+
+TAILLE_FENETRE = 800
+TAILLE_CASE = 50
+NB_CASES = TAILLE_FENETRE // TAILLE_CASE
+
+FPS=30
+
+class Hero:
+    def __init__(self, health, attack, x, y, color, direction):
+        self.health = health
+        self.attack = attack
+        self.x = x
+        self.y = y
+        self.alive = True
+        self.color = color
+        self.direction = direction
+
+    def draw(self, screen):
+        pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+
+    def update_health(self):
+        if self.health <= 0:
+            self.alive = False
+
+    def attack_enemy(self, enemy):
+        damage = np.random.randint(self.attack - 5, self.attack + 5)
+        enemy.health -= damage
+        enemy.is_dead()
+
+class Jeton:
+
+    def __init__(self, color):
+        self.y = 0
+        self.color = color
+        self.x = 0
+
+    def draw(self, screen):
+        pg.draw.circle(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE), 6)
+
+    def update_position(self):
+        self.y += 5
+
+def display(screen,board):
+    pg.display.set_caption('Rogue')
+    screen.fill((255,255,255))
+    for i in range(NB_CASES):
+        for j in range(NB_CASES):
+            #on colorie en noir les bordures
+            if board[i][j]==1:
+                pg.draw.rect(screen,(0,0,0),(i*TAILLE_CASE,j*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+
+
 def main():
-<<<<<<< Updated upstream
-    pass
-=======
 
     #pour l'exemple
     ex_board=np.zeros((NB_CASES,NB_CASES))
@@ -27,7 +82,7 @@ def main():
     #la boucle principale
     jetons = []
     score = 0
-
+    potions = [potion]
 
 
     hero = Hero(100, 10, 8, 8, (255, 0, 0), [0, 0])
@@ -97,24 +152,24 @@ def main():
                 n=1
                 while ex_board[monstre.x][monstre.y - monstre.direction[1]] == 0 and n<4 : 
                     monstre.y -= monstre.direction[1]   
-                    n+=1  
+                    n+=1 
 
 
-            if potion.guerison
-            
-            
-        
-        screen.fill((0, 0, 0))
-        display(screen,ex_board)
-        
-                
-        
-        
+            for potion in potions : 
+                if potion.guerison(hero.x, hero.y) :
+                    if hero.health + 50 > 100 :
+                        hero.health = 100
+                    else : 
+                        hero.health += 50
+                    potions.remove(potion)  
+
 
         
         screen.fill((0, 0, 0))
         display(screen,ex_board)        
         monstre.display(screen, TAILLE_CASE)
+        for potion in potions :
+            potion.display(screen, TAILLE_CASE)
 
         hero.draw(screen)
         
@@ -138,4 +193,3 @@ def main():
 
 if __name__ == "__main__":
     main()
->>>>>>> Stashed changes
