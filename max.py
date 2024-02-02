@@ -1,5 +1,6 @@
 import random
 import pygame as pg
+import numpy as np  
 
 
 
@@ -31,9 +32,9 @@ class K():
             if self.distance(X, Y) != 0:
                 if round(((X - self.x)/self.distance(X, Y))) == round(((Y - self.y)/self.distance(X, Y))) :
                     #on étudie les cas où le monstre et le personnage sont un peu en diagonale, il ne faut alors pas que le monstre se déplace en diagonale
-                    if ((X - self.x)/self.distance(X, Y)) < ((Y - self.y)/self.distance(X, Y)):
+                    if abs((X - self.x)/self.distance(X, Y)) < abs((Y - self.y)/self.distance(X, Y)):
                         if self.y < Y:
-                            self.y += 1 
+                            self.y += 1
                             self.direction = [0, 1]
                         
                         else:   
@@ -41,7 +42,7 @@ class K():
                             self.direction = [0, -1]
 
 
-                    elif ((X - self.x)/self.distance(X, Y)) > ((Y - self.y)/self.distance(X, Y)):
+                    elif abs((X - self.x)/self.distance(X, Y)) > abs((Y - self.y)/self.distance(X, Y)):
                         if self.x < X:
                             self.x += 1
                             self.direction = [1, 0]
