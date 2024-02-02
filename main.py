@@ -21,7 +21,7 @@ class Hero:
     def draw(self, screen):
         pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
 
-    def is_dead(self):
+    def update_health(self):
         if self.health <= 0:
             self.alive = False
 
@@ -30,8 +30,18 @@ class Hero:
         enemy.health -= damage
         enemy.is_dead()
 
+class Jeton:
 
+    def __init__(self, color):
+        self.y = 0
+        self.color = color
+        self.x = 0
 
+    def draw(self, screen):
+        pg.draw.circle(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE), 6)
+
+    def update_position(self):
+        self.y += 5
 
 def display(screen,board):
     pg.display.set_caption('Rogue')
@@ -62,7 +72,7 @@ def main():
     clock=pg.time.Clock()
     running=True
     #la boucle principale
-
+    jetons = []
     score = 0
 
     hero = Hero(100, 10, 8, 8, (255, 0, 0))
@@ -101,11 +111,17 @@ def main():
         screen.fill((0, 0, 0))
         display(screen,ex_board)
 
-        if not hero.alive():
+        if not hero.alive:
             pg.quit()
             
         hero.draw(screen)
         
+        for jeton in jetons:
+            jeton.draw(screen)
+            if jeton.x == hero.x and abs(jeton.y - hero.y) < 26:
+                jetons.remove(jeton)
+                score += 1 
+
         texte_score = police.render("Score : " + str(score), True, (125, 125, 125))
         position_score = (10, 10) 
         screen.blit(texte_score, position_score)
