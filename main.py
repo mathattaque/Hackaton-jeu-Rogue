@@ -53,14 +53,22 @@ def display(screen,board):
             #on colorie en noir les bordures
             if board[i][j]==1:
                 pg.draw.rect(screen,(0,0,0),(i*TAILLE_CASE,j*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+            if board[i][j]==2:
+                pg.draw.rect(screen,(0,0,255),(i*TAILLE_CASE,j*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
+                ##on colorie en bleu les portes
 
 
 def main():
-
-    #pour l'exemple
     ex_board=np.zeros((NB_CASES,NB_CASES))
-    ex_board[1:NB_CASES-1,1:NB_CASES-1]=np.ones((NB_CASES-2,NB_CASES-2))
+    #on veut faire deux salles , c'est à dire des carrées remplies de 1 en haut à gauche et en bas à droite de dimension nb case/2
+    ex_board[1:NB_CASES//2-1,1:NB_CASES//2-1]=np.ones((NB_CASES//2-2,NB_CASES//2-2))
+    ex_board[6,7]=2
+    ex_board[NB_CASES//2+1:NB_CASES-1,NB_CASES//2+1:NB_CASES-1]=np.ones((NB_CASES//2-2,NB_CASES//2-2))
+    ex_board[8,11]=2
+
+    dic_porte={(7,6):[12,9],(12,8):[6, 6]}
     #print(ex_board)
+
     pg.init()
 
     pg.font.init()
@@ -79,9 +87,7 @@ def main():
     jetons = []
     score = 0
 
-
-
-    hero = Hero(100, 10, 8, 8, (255, 0, 0), [0, 0])
+    hero = Hero(100, 10, 3, 3, (255, 0, 0), [0, 0])
 
 
     while running:
@@ -97,24 +103,46 @@ def main():
             if event.type==pg.KEYDOWN:
                 if event.key==pg.K_q:
                     running=False
-                elif event.key == pg.K_LEFT:
+                elif event.key == pg.K_DOWN:
                     if ex_board[hero.x-1,hero.y]==1:
                         hero.x -= 1
                         monstre.se_deplacer(hero.x, hero.y)
                         hero.direction = [-1, 0]
-                elif event.key == pg.K_RIGHT:
+                    if (hero.x -1, hero.y) in dic_porte:
+                        hero.x = dic_porte[[hero.x -1, hero.y]][0]
+                        hero.y = dic_porte[(hero.x -1, hero.y)][1]
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [-1, 0]
+                elif event.key == pg.K_:
                     if ex_board[hero.x+1,hero.y]==1:
                         hero.x += 1
                         monstre.se_deplacer(hero.x, hero.y)
                         hero.direction = [1, 0]
+                    if (hero.x +1, hero.y) in dic_porte:
+                        hero.x = dic_porte[(hero.x +1, hero.y)][0]
+                        hero.y = dic_porte[(hero.x +1, hero.y)][1]
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [+1, 0]
                 elif event.key == pg.K_UP:
+                    print(dic_porte, hero.x, hero.y)
                     if ex_board[hero.x,hero.y-1]==1:
                         hero.y -= 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, -1]
+                    if (hero.x, hero.y - 1) in dic_porte.keys():
+                        print("OK")
+                        hero.x = dic_porte[(hero.x, hero.y - 1)][0]
+                        hero.y = dic_porte[(hero.x, hero.y - 1)][1]
                         monstre.se_deplacer(hero.x, hero.y)
                         hero.direction = [0, -1]
                 elif event.key == pg.K_DOWN:
                     if ex_board[hero.x,hero.y+1]==1:
                         hero.y += 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, 1]
+                    if (hero.x, hero.y + 1) in dic_porte.keys():
+                        hero.x = dic_porte[(hero.x, hero.y + 1)][0]
+                        hero.y = dic_porte[(hero.x, hero.y + 1)][1]
                         monstre.se_deplacer(hero.x, hero.y)
                         hero.direction = [0, 1]
 

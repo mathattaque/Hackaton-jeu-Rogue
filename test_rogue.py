@@ -12,3 +12,5 @@ ex2_board[8,11]=2
 
 dic_porte={(6,7):(8,11),(8,11):(6,7)}
 print(ex2_board)
+
+

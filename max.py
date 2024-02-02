@@ -108,17 +108,3 @@ class K():
 
     def display(self,screen, TAILLE_CASE):
         pg.draw.circle(screen, (0, 0, 255), (self.x*TAILLE_CASE, self.y*TAILLE_CASE), 15)
-
-
-
-
-
-
-
-    
-    
-
-
-
-  
-
