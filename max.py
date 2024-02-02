@@ -1,7 +1,8 @@
 class K():
-    def __init__(self, x, y):
+    def __init__(self, x, y, direction):
         self.x = x
         self.y = y
+        self.direction = direction
     
     
     def __repr__(self):
@@ -13,13 +14,17 @@ class K():
             if ((X - self.x)/self.distance(X, Y)) < ((Y - self.y)/self.distance(X, Y)):
                 if self.y < Y:
                     self.y = self.y + 1 
+                    self.direction = [0, 1]
                 else:   
                     self.y = self.y - 1
+                    self.direction = [0, -1]
             else:
                 if self.x < X:
                     self.x = self.x + 1
+                    self.direction = [1, 0]
                 else:
                     self.x = self.x - 1 
+                    self.direction = [-1, 0]
     
 
         
