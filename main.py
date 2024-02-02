@@ -146,6 +146,8 @@ def main():
         display(screen,ex_board)        
         monstre.display(screen, TAILLE_CASE)
         hero.draw(screen, TAILLE_CASE)
+        for potion in potions : 
+            potion.display(screen, TAILLE_CASE)
         
         for jeton in jetons:
             jeton.draw(screen)

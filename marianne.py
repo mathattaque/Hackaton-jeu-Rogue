@@ -5,11 +5,13 @@ class P() :
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        
+   
     
     
     def guerison(self, X, Y):   #si le monstre est proche du personnage, il l'attaque
 
-        if self.distance(X, Y) == 0:
+        if self.x == X and self.y == Y:
 
             return True
         else:
