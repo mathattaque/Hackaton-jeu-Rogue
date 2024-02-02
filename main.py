@@ -11,18 +11,19 @@ NB_CASES = TAILLE_FENETRE // TAILLE_CASE
 FPS=30
 
 class Hero:
-    def __init__(self, health, attack, x, y, color):
+    def __init__(self, health, attack, x, y, color, direction):
         self.health = health
         self.attack = attack
         self.x = x
         self.y = y
         self.alive = True
         self.color = color
+        self.direction = direction
 
     def draw(self, screen):
         pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE,TAILLE_CASE,TAILLE_CASE))
 
-    def is_dead(self):
+    def update_health(self):
         if self.health <= 0:
             self.alive = False
 
@@ -31,8 +32,18 @@ class Hero:
         enemy.health -= damage
         enemy.is_dead()
 
+class Jeton:
 
+    def __init__(self, color):
+        self.y = 0
+        self.color = color
+        self.x = 0
 
+    def draw(self, screen):
+        pg.draw.circle(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE), 6)
+
+    def update_position(self):
+        self.y += 5
 
 def display(screen,board):
     pg.display.set_caption('Rogue')
@@ -57,29 +68,28 @@ def main():
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
 
-    monstre = K()
-    monstre.display()
+    monstre = K(14, 14, [0,0])
+    monstre.display(screen, TAILLE_CASE)
+
 
     pg.display.set_caption('Rogue')
     clock=pg.time.Clock()
     running=True
     #la boucle principale
-
+    jetons = []
     score = 0
 
 
-    hero = Hero(100, 10, 400, 400, (255, 0, 0))
+
+    hero = Hero(100, 10, 8, 8, (255, 0, 0), [0, 0])
+
 
     while running:
-        clock.tick(FPS)
-
-    hero = Hero(100, 10, 8, 8, (255, 0, 0))
-
-    while running:
+        if not hero.alive:
+            running = False
         clock.tick(FPS)
         screen.fill((0, 0, 0))
         display(screen,ex_board)
-
 
         for event in pg.event.get():
             if event.type==pg.QUIT:
@@ -128,27 +138,49 @@ def main():
                 elif event.key == pg.K_LEFT:
                     if ex_board[hero.x-1,hero.y]==1:
                         hero.x -= 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [-1, 0]
                 elif event.key == pg.K_RIGHT:
                     if ex_board[hero.x+1,hero.y]==1:
                         hero.x += 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [1, 0]
                 elif event.key == pg.K_UP:
                     if ex_board[hero.x,hero.y-1]==1:
                         hero.y -= 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, -1]
                 elif event.key == pg.K_DOWN:
                     if ex_board[hero.x,hero.y+1]==1:
                         hero.y += 1
+                        monstre.se_deplacer(hero.x, hero.y)
+                        hero.direction = [0, 1]
 
-        if not hero.alive():
-            pg.quit()
+        
+        
+        if monstre.attaque(hero.x, hero.y):
+            hero.health -= 100
+            hero.update_health()
+
+        
+        screen.fill((0, 0, 0))
+        display(screen,ex_board)        
+        monstre.display(screen, TAILLE_CASE)
 
         hero.draw(screen)
         
+        for jeton in jetons:
+            jeton.draw(screen)
+            if jeton.x == hero.x and abs(jeton.y - hero.y) < 26:
+                jetons.remove(jeton)
+                score += 1 
+
         texte_score = police.render("Score : " + str(score), True, (125, 125, 125))
         position_score = (10, 10) 
         screen.blit(texte_score, position_score)
-
+        
         pg.display.update()
-
+        
     pg.quit()
 
 if __name__ == "__main__":
