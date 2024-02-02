@@ -93,7 +93,11 @@ def main():
         monstre.se_deplacer(hero.x, hero.y)
         if monstre.attaque(hero.x, hero.y):
             hero.health -= 100
-
+            # on fait reculer le monstre 
+            hero.x = hero.x - hero.direction[0]
+            hero.y = hero.y - hero.direction[1]
+            monstre.x = monstre.x - monstre.direction[0]
+            monstre.y = monstre.y - monstre.direction[1]
         
         screen.fill((0, 0, 0))
         display(screen,ex_board)
