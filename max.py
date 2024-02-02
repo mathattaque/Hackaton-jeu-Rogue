@@ -16,6 +16,9 @@ class K():
         self.salle = salle
         #self.etat = "inactive"
         self.etat = "active"
+        self.direction = direction
+
+
     
 
     def activate(self, salle):
@@ -26,6 +29,7 @@ class K():
         return str(self.x, self.y)
     
     def se_deplacer(self, X, Y):   
+
         # le monstre se déplace vers le personnage  
         if self.etat == "active":
 
@@ -41,30 +45,29 @@ class K():
                             self.y -= 1
                             self.direction = [0, -1]
 
-
                     elif abs((X - self.x)/self.distance(X, Y)) > abs((Y - self.y)/self.distance(X, Y)):
                         if self.x < X:
-                            self.x += 1
+                            self.x = self.x + 1
                             self.direction = [1, 0]
                         else:
-                            self.x -= 1 
+                            self.x = self.x - 1 
                             self.direction = [-1, 0]
 
                     else :
                         a = random.randint(0,1)
                         if a == 1 : 
                             if self.x < X : 
-                                self.x += 1 
+                                self.x = self.x + 1 
                                 self.direction = [1, 0]
                             else : 
-                                self.x -= 1
+                                self.x = self.x - 1
                                 self.direction = [-1, 0]
                         else :
                             if self.y < Y : 
-                                self.y += 1 
+                                self.y = self.y + 1 
                                 self.direction = [0, 1]
                             else : 
-                                self.y -= 1
+                                self.y = self.y - 1 
                                 self.direction = [0, -1]
 
                 else:

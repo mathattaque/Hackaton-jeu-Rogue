@@ -123,8 +123,7 @@ def main():
                 while ex_board[monstre.x][monstre.y - monstre.direction[1]] == 0 and n<4 : 
                     monstre.y -= 3*monstre.direction[1]   
                     n+=1     
-            
-            
+
         screen.fill((0, 0, 0))
         display(screen,ex_board)        
         monstre.display(screen, TAILLE_CASE)
@@ -136,7 +135,7 @@ def main():
                 jetons.remove(jeton)
                 score += 1 
 
-        texte_score = police.render("Score : " + str(hero.health), True, (125, 125, 125))
+        texte_score = police.render("Health : " + str(hero.health), True, (125, 125, 125))
         position_score = (10, 10) 
         screen.blit(texte_score, position_score)
         hero.update_health()
