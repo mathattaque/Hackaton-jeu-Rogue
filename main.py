@@ -61,10 +61,12 @@ def main():
 
     score = 0
 
-    hero = Hero(100, 10, 400, 400, (255, 0, 0))
+    hero = Hero(100, 10, 8, 8, (255, 0, 0))
 
     while running:
         clock.tick(FPS)
+        screen.fill((0, 0, 0))
+        display(screen,ex_board)
 
         for event in pg.event.get():
             if event.type==pg.QUIT:
@@ -73,10 +75,22 @@ def main():
             if event.type==pg.KEYDOWN:
                 if event.key==pg.K_q:
                     running=False
+                elif event.key == pg.K_LEFT:
+                    if ex_board[hero.x-1,hero.y]==1:
+                        hero.x -= 1
+                elif event.key == pg.K_RIGHT:
+                    if ex_board[hero.x+1,hero.y]==1:
+                        hero.x += 1
+                elif event.key == pg.K_UP:
+                    if ex_board[hero.x,hero.y-1]==1:
+                        hero.y -= 1
+                elif event.key == pg.K_DOWN:
+                    if ex_board[hero.x,hero.y+1]==1:
+                        hero.y += 1
 
-        screen.fill((0, 0, 0))
-        display(screen,ex_board)
-
+        if not hero.alive():
+            pg.quit()
+            
         hero.draw(screen)
         
         texte_score = police.render("Score : " + str(score), True, (125, 125, 125))
