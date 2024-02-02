@@ -3,6 +3,7 @@ import pygame as pg
 from max import K
 
 
+
 TAILLE_FENETRE = 800
 TAILLE_CASE = 50
 NB_CASES = TAILLE_FENETRE // TAILLE_CASE
@@ -66,8 +67,10 @@ def main():
     police = pg.font.Font(None, 36)  # Choisissez une taille de police qui convient
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
+
     monstre = K(14, 14, [0,0])
     monstre.display(screen, TAILLE_CASE)
+
 
     pg.display.set_caption('Rogue')
     clock=pg.time.Clock()
@@ -76,7 +79,10 @@ def main():
     jetons = []
     score = 0
 
+
+
     hero = Hero(100, 10, 8, 8, (255, 0, 0), [0, 0])
+
 
     while running:
         if not hero.alive:
@@ -84,6 +90,7 @@ def main():
         clock.tick(FPS)
         screen.fill((0, 0, 0))
         display(screen,ex_board)
+
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 running=False
@@ -91,6 +98,43 @@ def main():
             if event.type==pg.KEYDOWN:
                 if event.key==pg.K_q:
                     running=False
+
+        
+        monstre.se_deplacer(hero.x, hero.y)
+        if monstre.attaque(hero.x, hero.y):
+            hero.health -= 100
+            # on fait reculer le héro et le monstre après collision
+            if hero.direction[0] != 0 :
+                hero.x -= hero.direction[0]
+                n=1
+                while ex_board[hero.x - hero.direction[0]][hero.y] == 0 and n<4 : 
+                    hero.x -= hero.direction[0]
+                    n+=1
+            else : 
+                hero.y = hero.y - hero.direction[1]
+                n=1
+                while ex_board[hero.x][hero.y - hero.direction[1]] == 0 and n<4 : 
+                    hero.y -= hero.direction[1]
+                    n+=1
+
+            if monstre.direction[0] != 0 :
+                monstre.x = monstre.x - monstre.direction[0]
+                n=1
+                while ex_board[monstre.x - monstre.direction[0]][hero.y] == 0 and n<4 : 
+                    monstre.x -= monstre.direction[0]
+                    n+=1
+            else : 
+                monstre.y -= monstre.direction[1]
+                n=1
+                while ex_board[monstre.x][monstre.y - monstre.direction[1]] == 0 and n<4 : 
+                    monstre.y -= monstre.direction[1]   
+                    n+=1     
+            
+            
+        
+        screen.fill((0, 0, 0))
+        display(screen,ex_board)
+
                 elif event.key == pg.K_LEFT:
                     if ex_board[hero.x-1,hero.y]==1:
                         hero.x -= 1
@@ -120,13 +164,9 @@ def main():
 
         
         screen.fill((0, 0, 0))
-        display(screen,ex_board)
-
-
-
-        
-        
+        display(screen,ex_board)        
         monstre.display(screen, TAILLE_CASE)
+
         hero.draw(screen)
         
         for jeton in jetons:
