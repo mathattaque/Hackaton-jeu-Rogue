@@ -1,6 +1,6 @@
 import numpy as np 
 import pygame as pg 
-from max import K
+from max import K, salle
 from Mathis import Hero, Jeton
 
 
@@ -27,6 +27,7 @@ def main():
     #pour l'exemple
     ex_board=np.zeros((NB_CASES,NB_CASES))
     ex_board[1:NB_CASES-1,1:NB_CASES-1]=np.ones((NB_CASES-2,NB_CASES-2))
+    salle_1 = salle(1,2, {(1,2):(1,3),(1,3):(1,2)}, 3, 3)
     #print(ex_board)
     pg.init()
 
@@ -35,7 +36,7 @@ def main():
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
 
-    monstre = K(14, 14, [0,0])
+    monstre = K(14, 14, [0,0], salle_1)
     monstre.display(screen, TAILLE_CASE)
 
 
@@ -66,23 +67,23 @@ def main():
                     running=False
                 elif event.key == pg.K_LEFT:
                     if ex_board[hero.x-1,hero.y]==1:
-                        hero.x -= 1
                         monstre.se_deplacer(hero.x, hero.y)
+                        hero.x -= 1
                         hero.direction = [-1, 0]
                 elif event.key == pg.K_RIGHT:
                     if ex_board[hero.x+1,hero.y]==1:
-                        hero.x += 1
                         monstre.se_deplacer(hero.x, hero.y)
+                        hero.x += 1
                         hero.direction = [1, 0]
                 elif event.key == pg.K_UP:
                     if ex_board[hero.x,hero.y-1]==1:
-                        hero.y -= 1
                         monstre.se_deplacer(hero.x, hero.y)
+                        hero.y -= 1
                         hero.direction = [0, -1]
                 elif event.key == pg.K_DOWN:
                     if ex_board[hero.x,hero.y+1]==1:
-                        hero.y += 1
                         monstre.se_deplacer(hero.x, hero.y)
+                        hero.y += 1
                         hero.direction = [0, 1]
 
 
