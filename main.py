@@ -56,7 +56,7 @@ def main():
 
     screen = pg.display.set_mode((TAILLE_FENETRE,TAILLE_FENETRE))
     monstre = K()
-    monstre.display(screen)
+    monstre.display(screen, TAILLE_CASE)
 
     pg.display.set_caption('Rogue')
     clock=pg.time.Clock()
@@ -71,7 +71,7 @@ def main():
         clock.tick(FPS)
         screen.fill((0, 0, 0))
         display(screen,ex_board)
-        monstre.display(screen)
+        monstre.display(screen, TAILLE_CASE)
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 running=False
