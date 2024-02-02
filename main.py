@@ -149,15 +149,6 @@ def main():
                 while ex_board[monstre.x][monstre.y - monstre.direction[1]] == 0 and n<4 : 
                     monstre.y -= monstre.direction[1]   
                     n+=1     
-            
-            
-        
-        screen.fill((0, 0, 0))
-        display(screen,ex_board)
-        
-                
-        
-        
 
         
         screen.fill((0, 0, 0))
