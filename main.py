@@ -1,6 +1,7 @@
 import numpy as np 
 import pygame as pg 
 from max import K
+from Mathis import Hero, Jeton
 
 
 
@@ -10,40 +11,6 @@ NB_CASES = TAILLE_FENETRE // TAILLE_CASE
 
 FPS=30
 
-class Hero:
-    def __init__(self, health, attack, x, y, color, direction):
-        self.health = health
-        self.attack = attack
-        self.x = x
-        self.y = y
-        self.alive = True
-        self.color = color
-        self.direction = direction
-
-    def draw(self, screen):
-        pg.draw.rect(screen, self.color, (self.x*TAILLE_CASE, self.y*TAILLE_CASE ,TAILLE_CASE,TAILLE_CASE))
-
-    def update_health(self):
-        if self.health <= 0:
-            self.alive = False
-
-    def attack_enemy(self, enemy):
-        damage = np.random.randint(self.attack - 5, self.attack + 5)
-        enemy.health -= damage
-        enemy.is_dead()
-
-class Jeton:
-
-    def __init__(self, color):
-        self.y = 0
-        self.color = color
-        self.x = 0
-
-    def draw(self, screen):
-        pg.draw.circle(screen, self.color, (self.x*TAILLE_CASE,self.y*TAILLE_CASE), 6)
-
-    def update_position(self):
-        self.y += 5
 
 def display(screen,board):
     pg.display.set_caption('Rogue')
@@ -125,7 +92,7 @@ def main():
             screen.fill((0, 0, 0))
             display(screen,ex_board)        
             monstre.display(screen, TAILLE_CASE)
-            hero.draw(screen)
+            hero.draw(screen, TAILLE_CASE)
             pg.display.update()
 
             hero.health -= 10
@@ -157,17 +124,10 @@ def main():
                     n+=1     
             
             
-        
-
-                
-        
-        
-
-        
         screen.fill((0, 0, 0))
         display(screen,ex_board)        
         monstre.display(screen, TAILLE_CASE)
-        hero.draw(screen)
+        hero.draw(screen, TAILLE_CASE)
         
         for jeton in jetons:
             jeton.draw(screen)

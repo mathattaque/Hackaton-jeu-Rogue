@@ -1,6 +1,12 @@
 import random
 import pygame as pg
 
+
+
+
+
+
+
 class K():
 
     def __init__(self, x, y, direction):
@@ -80,6 +86,34 @@ class K():
         pg.draw.circle(screen, (0, 0, 255), ((self.x + 1/2)*TAILLE_CASE , (self.y + 1/2)*TAILLE_CASE), 15)
 
 
+
+
+
+class salle():
+    def __init__(self, i, j, dico, width, height):
+        self.i = i
+        self.j = j
+        self.width = width
+        self.height = height
+        self.entrees = dico
+        self.etat = "fermee"
+
+
+    def draw(self, board):
+        board[self.i:self.i+self.width, self.j:self.j+self.height] = 1
+        return board
+    
+    
+    def activate(self, entrees, hero):
+        if (hero.x, hero.y) in entrees:
+            if self.etat ==  "ouverte":
+                self.etat = "fermee"
+            else:
+                self.etat = "ouverte"
+    
+
+            
+    
 
 
 
