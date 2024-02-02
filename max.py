@@ -1,7 +1,7 @@
 import pygame as pg
 
 class K():
-    def __init__(self, x, y):
+    def __init__(self):
         self.x = -2
         self.y = -2
     
